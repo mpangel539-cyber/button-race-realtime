@@ -7,61 +7,73 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <div id="countdownOverlay" class="countdown-overlay" hidden>
+    <div class="countdown-card">
+      <span class="countdown-label">LA RONDA COMIENZA EN</span>
+      <strong id="countdownNumber">3</strong>
+    </div>
+  </div>
+
   <div class="container">
     <header class="topbar">
       <div class="brand">
+        <div class="eyebrow">⚡ BUTTON RACE</div>
         <h1>Panel del administrador</h1>
-        <small>Competencia de botones en tiempo real</small>
+        <small>Control de ronda, resultados y marcador</small>
       </div>
-      <div>
-        <div class="muted" style="margin-bottom:5px">Código de sala</div>
+      <div class="room-panel">
+        <div class="muted">CÓDIGO DE SALA</div>
         <div id="roomCode" class="room-code">----</div>
       </div>
     </header>
 
-    <section class="card" style="margin-bottom:18px">
+    <section class="card control-card">
       <div class="controls">
         <button id="startBtn" class="btn-primary" disabled>▶ Iniciar ronda</button>
-        <button id="resetBtn" class="btn-secondary" disabled>↻ Reiniciar ronda</button>
-        <button id="copyBtn" class="btn-secondary" disabled>Copiar enlace</button>
-        <button id="clearHistoryBtn" class="btn-danger" disabled>Limpiar historial</button>
+        <button id="resetBtn" class="btn-secondary" disabled>↻ Reiniciar</button>
+        <button id="copyBtn" class="btn-secondary" disabled>🔗 Copiar enlace</button>
+        <button id="resetScoresBtn" class="btn-warning" disabled>🏆 Reiniciar puntos</button>
+        <button id="clearHistoryBtn" class="btn-danger" disabled>🗑 Historial</button>
       </div>
-      <div id="roundStatus" class="status">
-        <span class="dot"></span>
-        <span>Preparando sala...</span>
-      </div>
+      <div id="roundStatus" class="status"><span class="dot"></span><span>Preparando sala...</span></div>
     </section>
 
-    <div class="grid">
-      <div>
-        <section class="card" style="margin-bottom:18px">
-          <h2>Clasificación en tiempo real</h2>
+    <div class="dashboard-grid">
+      <main>
+        <section class="card podium-card">
+          <div class="section-heading">
+            <div><span class="eyebrow">RONDA ACTUAL</span><h2>Clasificación en tiempo real</h2></div>
+            <span class="pill">3 pts • 2 pts • 1 pt</span>
+          </div>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Posición</th><th>Jugador</th><th>Tiempo</th></tr>
-              </thead>
+              <thead><tr><th>Posición</th><th>Jugador</th><th>Tiempo</th><th>Puntos</th></tr></thead>
               <tbody id="resultsBody"></tbody>
             </table>
           </div>
-          <div id="resultsEmpty" class="empty">Todavía no hay pulsaciones.</div>
+          <div id="resultsEmpty" class="empty">Todavía no hay pulsaciones en esta ronda.</div>
         </section>
 
-        <section class="card">
-          <h2>Historial de rondas</h2>
+        <section class="card history-card">
+          <div class="section-heading"><div><span class="eyebrow">PARTIDA</span><h2>Historial de rondas</h2></div></div>
           <div id="history"></div>
         </section>
-      </div>
+      </main>
 
-      <aside class="card">
-        <h2>Jugadores <span id="playerCount" class="muted">(0)</span></h2>
-        <div id="players"></div>
+      <aside class="side-stack">
+        <section class="card score-card">
+          <div class="section-heading"><div><span class="eyebrow">MARCADOR</span><h2>Puntos totales</h2></div></div>
+          <div id="scoreboard"></div>
+        </section>
+        <section class="card">
+          <div class="section-heading"><div><span class="eyebrow">SALA</span><h2>Jugadores <span id="playerCount" class="muted">(0)</span></h2></div></div>
+          <div id="players"></div>
+        </section>
       </aside>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
-
   <script src="/socket.io/socket.io.js"></script>
   <script src="/admin.js"></script>
 </body>

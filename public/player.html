@@ -7,46 +7,42 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <div id="countdownOverlay" class="countdown-overlay" hidden>
+    <div class="countdown-card player-countdown-card">
+      <span class="countdown-label">PREPÁRATE</span>
+      <strong id="countdownNumber">3</strong>
+    </div>
+  </div>
+
   <section id="joinView" class="card join-card">
+    <div class="join-logo">⚡</div>
+    <span class="eyebrow">BUTTON RACE</span>
     <h1>Entrar a una sala</h1>
-    <p class="muted">Escribe el código que te dio el administrador y tu nombre.</p>
-    <div class="field">
-      <label for="roomInput">Código de sala</label>
-      <input id="roomInput" inputmode="numeric" maxlength="6" placeholder="Ej. 4821">
-    </div>
-    <div class="field">
-      <label for="nameInput">Tu nombre</label>
-      <input id="nameInput" maxlength="32" placeholder="Ej. Carlos">
-    </div>
-    <button id="joinBtn" class="btn-primary" style="width:100%">Unirse</button>
-    <p id="joinError" class="muted"></p>
+    <p class="muted">Escribe el código del administrador y tu nombre.</p>
+    <div class="field"><label for="roomInput">Código de sala</label><input id="roomInput" inputmode="numeric" maxlength="6" placeholder="Ej. 4821"></div>
+    <div class="field"><label for="nameInput">Tu nombre</label><input id="nameInput" maxlength="32" placeholder="Ej. Carlos"></div>
+    <button id="joinBtn" class="btn-primary full-btn">Unirse a la partida</button>
+    <p id="joinError" class="error-text"></p>
   </section>
 
   <main id="gameView" class="player-screen" hidden>
-    <header class="player-header">
-      <div>
-        <div class="muted">Jugador</div>
-        <strong id="playerName">—</strong>
-      </div>
-      <div style="text-align:right">
-        <div class="muted">Sala</div>
-        <strong id="playerRoom">—</strong>
-      </div>
+    <header class="player-header glass-bar">
+      <div><div class="muted mini-label">JUGADOR</div><strong id="playerName">—</strong></div>
+      <div class="score-chip">🏆 <span id="playerScore">0</span> pts</div>
+      <div style="text-align:right"><div class="muted mini-label">SALA</div><strong id="playerRoom">—</strong></div>
     </header>
 
     <section class="buzzer-zone">
-      <div style="text-align:center">
+      <div class="buzzer-content">
         <div id="statusText" class="big-status">Esperando al administrador…</div>
-        <div style="height:24px"></div>
-        <button id="buzzer" class="buzzer waiting" disabled>ESPERA</button>
-        <div style="height:20px"></div>
+        <div class="round-hint" id="roundHint">El botón se activará cuando comience la ronda.</div>
+        <button id="buzzer" class="buzzer waiting" disabled><span id="buzzerIcon">⏳</span><span id="buzzerText">ESPERA</span></button>
         <div id="resultBox" class="result-box"></div>
       </div>
     </section>
   </main>
 
   <div id="toast" class="toast"></div>
-
   <script src="/socket.io/socket.io.js"></script>
   <script src="/player.js"></script>
 </body>
