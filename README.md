@@ -1,84 +1,31 @@
 # Button Race Realtime
 
-Aplicación web de pulsadores para concursos, trivias, clases y dinámicas.
+Aplicación web de pulsadores en tiempo real para concursos, trivias y dinámicas.
 
-## Tecnología
+## Incluye
+- Salas por código
+- Administrador y jugadores
+- Socket.IO en tiempo real
+- Contador sincronizado 3, 2, 1
+- Orden decidido por el servidor
+- Tiempo de reacción
+- Marcador acumulado: 1.º = 3 pts, 2.º = 2 pts, 3.º = 1 pt
+- Reinicio de puntos
+- Historial de rondas
+- Reconexión de jugadores
+- Diseño responsive
 
-- Node.js
-- Express
-- Socket.IO
-- HTML, CSS y JavaScript sin framework
-
-## Ejecutar localmente
-
-1. Instala Node.js 18 o superior.
-2. Abre una terminal dentro de esta carpeta.
-3. Ejecuta:
-
+## Ejecutar
 ```bash
 npm install
 npm start
 ```
 
-4. Abre:
-   - Inicio: http://localhost:3000
-   - Administrador: http://localhost:3000/admin
-   - Jugador: http://localhost:3000/player
+Administrador: `http://localhost:3000/admin`
+Jugador: `http://localhost:3000/player`
 
-## Probar desde otro celular o computadora en la misma Wi‑Fi
+## Render
+Build command: `npm install`
+Start command: `node server.js`
 
-El equipo que ejecuta Node.js debe aceptar conexiones en el puerto 3000.
-
-Busca la IP local del equipo servidor. En Windows puedes usar:
-
-```bash
-ipconfig
-```
-
-Si la IP es, por ejemplo, `192.168.1.50`, los otros dispositivos deben abrir:
-
-```text
-http://192.168.1.50:3000/player
-```
-
-El administrador puede usar:
-
-```text
-http://192.168.1.50:3000/admin
-```
-
-Todos los dispositivos deben estar en la misma red local.
-
-## Publicación
-
-Este proyecto puede desplegarse en servicios compatibles con Node.js y WebSockets, por ejemplo Render, Railway, Fly.io o un VPS.
-
-Comando de inicio:
-
-```bash
-npm start
-```
-
-La plataforma debe exponer la variable `PORT`; el servidor ya la utiliza automáticamente.
-
-## Cómo se determina el orden
-
-El navegador NO decide la posición. Cada pulsación viaja por Socket.IO al servidor.
-
-El servidor:
-
-1. recibe la pulsación;
-2. usa un reloj monotónico de alta resolución (`process.hrtime.bigint()`);
-3. compara el momento de recepción con el inicio de la ronda;
-4. asigna la siguiente posición disponible;
-5. transmite el resultado a todos los clientes.
-
-Esto evita confiar en los relojes de celulares o computadoras.
-
-## Persistencia
-
-Actualmente las salas y el historial viven en memoria. Si el servidor se reinicia, se pierden.
-
-Para producción con múltiples instancias se recomienda:
-- Redis para estado compartido y adaptador de Socket.IO;
-- PostgreSQL/MySQL para historial permanente.
+Las salas, puntos e historial viven en memoria y se reinician si el servidor se reinicia.
