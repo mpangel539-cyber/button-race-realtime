@@ -19,7 +19,7 @@
       <div class="brand">
         <div class="eyebrow">⚡ BUTTON RACE</div>
         <h1>Panel del administrador</h1>
-        <small>Control de ronda, resultados y marcador</small>
+        <small>Control de ronda, podio y resultados en tiempo real</small>
       </div>
       <div class="room-panel">
         <div class="muted">CÓDIGO DE SALA</div>
@@ -32,7 +32,7 @@
         <button id="startBtn" class="btn-primary" disabled>▶ Iniciar ronda</button>
         <button id="resetBtn" class="btn-secondary" disabled>↻ Reiniciar</button>
         <button id="copyBtn" class="btn-secondary" disabled>🔗 Copiar enlace</button>
-        <button id="resetScoresBtn" class="btn-warning" disabled>🏆 Reiniciar puntos</button>
+        <button id="soundBtn" class="btn-secondary">🔊 Sonido: ON</button>
         <button id="clearHistoryBtn" class="btn-danger" disabled>🗑 Historial</button>
       </div>
       <div id="roundStatus" class="status"><span class="dot"></span><span>Preparando sala...</span></div>
@@ -40,14 +40,24 @@
 
     <div class="dashboard-grid">
       <main>
+        <section class="card podium-section">
+          <div class="section-heading">
+            <div><span class="eyebrow">PODIO</span><h2>Primeros lugares de la ronda</h2></div>
+          </div>
+          <div id="podium" class="podium">
+            <div class="podium-place second"><div class="podium-medal">🥈</div><strong>2.º</strong><span>Esperando...</span><small>—</small></div>
+            <div class="podium-place first"><div class="podium-medal">🥇</div><strong>1.º</strong><span>Esperando...</span><small>—</small></div>
+            <div class="podium-place third"><div class="podium-medal">🥉</div><strong>3.º</strong><span>Esperando...</span><small>—</small></div>
+          </div>
+        </section>
+
         <section class="card podium-card">
           <div class="section-heading">
             <div><span class="eyebrow">RONDA ACTUAL</span><h2>Clasificación en tiempo real</h2></div>
-            <span class="pill">3 pts • 2 pts • 1 pt</span>
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Posición</th><th>Jugador</th><th>Tiempo</th><th>Puntos</th></tr></thead>
+              <thead><tr><th>Posición</th><th>Jugador</th><th>Tiempo</th></tr></thead>
               <tbody id="resultsBody"></tbody>
             </table>
           </div>
@@ -61,10 +71,14 @@
       </main>
 
       <aside class="side-stack">
-        <section class="card score-card">
-          <div class="section-heading"><div><span class="eyebrow">MARCADOR</span><h2>Puntos totales</h2></div></div>
-          <div id="scoreboard"></div>
+        <section class="card qr-card">
+          <div class="section-heading"><div><span class="eyebrow">ENTRADA RÁPIDA</span><h2>Escanea para unirte</h2></div></div>
+          <div class="qr-wrap">
+            <img id="qrImage" alt="Código QR para entrar a la sala">
+          </div>
+          <p class="muted qr-help">El código de sala se carga automáticamente. El jugador solo escribe su nombre.</p>
         </section>
+
         <section class="card">
           <div class="section-heading"><div><span class="eyebrow">SALA</span><h2>Jugadores <span id="playerCount" class="muted">(0)</span></h2></div></div>
           <div id="players"></div>
