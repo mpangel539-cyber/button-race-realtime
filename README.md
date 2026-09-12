@@ -1,31 +1,58 @@
-# Button Race Realtime
+# Button Race Realtime V3
 
 Aplicación web de pulsadores en tiempo real para concursos, trivias y dinámicas.
 
 ## Incluye
+
 - Salas por código
 - Administrador y jugadores
 - Socket.IO en tiempo real
-- Contador sincronizado 3, 2, 1
+- Cuenta regresiva 3, 2, 1
 - Orden decidido por el servidor
-- Tiempo de reacción
-- Marcador acumulado: 1.º = 3 pts, 2.º = 2 pts, 3.º = 1 pt
-- Reinicio de puntos
+- Tiempo de respuesta por ronda
+- Código QR para entrar directamente a la sala
+- Podio en vivo para 1.º, 2.º y 3.º lugar
+- Sonidos de cuenta regresiva, ¡YA! y pulsación
+- Botón para activar/desactivar sonido
 - Historial de rondas
 - Reconexión de jugadores
-- Diseño responsive
+- Sin sistema de puntos
 
 ## Ejecutar
+
 ```bash
 npm install
 npm start
 ```
 
-Administrador: `http://localhost:3000/admin`
-Jugador: `http://localhost:3000/player`
+Administrador:
+
+```text
+http://localhost:3000/admin
+```
+
+Jugador:
+
+```text
+http://localhost:3000/player
+```
 
 ## Render
-Build command: `npm install`
-Start command: `node server.js`
 
-Las salas, puntos e historial viven en memoria y se reinician si el servidor se reinicia.
+Build Command:
+
+```text
+npm install
+```
+
+Start Command:
+
+```text
+node server.js
+```
+
+Al subir estos cambios a GitHub, Render puede desplegarlos automáticamente.
+
+## Nota
+
+Las salas y el historial se guardan en memoria. Si el servidor se reinicia, se eliminan.

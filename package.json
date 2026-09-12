@@ -1,7 +1,7 @@
 {
   "name": "button-race-realtime",
-  "version": "1.0.0",
-  "description": "Aplicaci\u00f3n web de pulsadores en tiempo real para concursos y din\u00e1micas.",
+  "version": "3.0.0",
+  "description": "Pulsadores en tiempo real con cuenta regresiva, QR, podio y sonidos.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "express": "^4.21.2",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

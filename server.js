@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const crypto = require("crypto");
+const QRCode = require("qrcode");
 const { Server } = require("socket.io");
 
 const app = express();
@@ -19,6 +20,30 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 app.get("/admin", (_req, res) => res.sendFile(path.join(__dirname, "public", "admin.html")));
 app.get("/player", (_req, res) => res.sendFile(path.join(__dirname, "public", "player.html")));
+
+app.get("/api/qr", async (req, res) => {
+  try {
+    const room = String(req.query.room || "").trim();
+    if (!room) return res.status(400).send("Falta el código de sala.");
+
+    const forwardedProto = req.headers["x-forwarded-proto"];
+    const protocol = forwardedProto ? String(forwardedProto).split(",")[0] : req.protocol;
+    const host = req.get("host");
+    const playerUrl = `${protocol}://${host}/player?room=${encodeURIComponent(room)}`;
+
+    const svg = await QRCode.toString(playerUrl, {
+      type: "svg",
+      errorCorrectionLevel: "M",
+      margin: 2,
+      width: 260
+    });
+
+    res.type("image/svg+xml").send(svg);
+  } catch (error) {
+    console.error("QR error:", error);
+    res.status(500).send("No se pudo generar el QR.");
+  }
+});
 
 const rooms = new Map();
 
@@ -38,17 +63,10 @@ function safeName(value) {
   return String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
 }
 
-function pointsForPosition(position) {
-  if (position === 1) return 3;
-  if (position === 2) return 2;
-  if (position === 3) return 1;
-  return 0;
-}
-
 function getPublicPlayers(room) {
   return [...room.players.values()]
-    .map((p) => ({ id: p.id, name: p.name, connected: p.connected, score: p.score || 0 }))
-    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+    .map((p) => ({ id: p.id, name: p.name, connected: p.connected }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function getRoundPayload(room) {
@@ -205,17 +223,6 @@ io.on("connection", (socket) => {
     callback({ ok: true });
   });
 
-  socket.on("admin:resetScores", ({ code }, callback = () => {}) => {
-    const room = rooms.get(String(code || ""));
-    if (!room || room.adminSocketId !== socket.id) {
-      return callback({ ok: false, message: "No tienes control de esta sala." });
-    }
-    for (const player of room.players.values()) player.score = 0;
-    emitRoomState(room);
-    io.to(code).emit("scores:reset");
-    callback({ ok: true });
-  });
-
   socket.on("player:join", ({ code, name, playerId }, callback = () => {}) => {
     code = String(code || "").trim();
     name = safeName(name);
@@ -240,8 +247,7 @@ io.on("connection", (socket) => {
         name,
         socketId: socket.id,
         connected: true,
-        pressedRound: null,
-        score: 0
+        pressedRound: null
       };
       room.players.set(player.id, player);
     }
@@ -255,7 +261,7 @@ io.on("connection", (socket) => {
     callback({
       ok: true,
       playerId: player.id,
-      player: { id: player.id, name: player.name, score: player.score || 0 },
+      player: { id: player.id, name: player.name },
       state: getRoundPayload(room),
       result: existingResult || null
     });
@@ -279,10 +285,8 @@ io.on("connection", (socket) => {
     const arrivedAtNs = process.hrtime.bigint();
     const elapsedMs = Number(arrivedAtNs - room.roundStartedAtNs) / 1_000_000;
     const position = room.results.length + 1;
-    const pointsAwarded = pointsForPosition(position);
 
     player.pressedRound = room.roundNumber;
-    player.score = (player.score || 0) + pointsAwarded;
 
     const result = {
       position,
@@ -290,8 +294,6 @@ io.on("connection", (socket) => {
       playerName: player.name,
       elapsedMs,
       elapsedSeconds: Number((elapsedMs / 1000).toFixed(3)),
-      pointsAwarded,
-      totalScore: player.score,
       serverReceivedAtEpochMs: Date.now()
     };
 
