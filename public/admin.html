@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administrador | Button Race</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Panel del administrador</h1>
+        <small>Competencia de botones en tiempo real</small>
+      </div>
+      <div>
+        <div class="muted" style="margin-bottom:5px">Código de sala</div>
+        <div id="roomCode" class="room-code">----</div>
+      </div>
+    </header>
+
+    <section class="card" style="margin-bottom:18px">
+      <div class="controls">
+        <button id="startBtn" class="btn-primary" disabled>▶ Iniciar ronda</button>
+        <button id="resetBtn" class="btn-secondary" disabled>↻ Reiniciar ronda</button>
+        <button id="copyBtn" class="btn-secondary" disabled>Copiar enlace</button>
+        <button id="clearHistoryBtn" class="btn-danger" disabled>Limpiar historial</button>
+      </div>
+      <div id="roundStatus" class="status">
+        <span class="dot"></span>
+        <span>Preparando sala...</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div>
+        <section class="card" style="margin-bottom:18px">
+          <h2>Clasificación en tiempo real</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Posición</th><th>Jugador</th><th>Tiempo</th></tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+          <div id="resultsEmpty" class="empty">Todavía no hay pulsaciones.</div>
+        </section>
+
+        <section class="card">
+          <h2>Historial de rondas</h2>
+          <div id="history"></div>
+        </section>
+      </div>
+
+      <aside class="card">
+        <h2>Jugadores <span id="playerCount" class="muted">(0)</span></h2>
+        <div id="players"></div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/admin.js"></script>
+</body>
+</html>

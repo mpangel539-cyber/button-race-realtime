@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jugador | Button Race</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <section id="joinView" class="card join-card">
+    <h1>Entrar a una sala</h1>
+    <p class="muted">Escribe el código que te dio el administrador y tu nombre.</p>
+    <div class="field">
+      <label for="roomInput">Código de sala</label>
+      <input id="roomInput" inputmode="numeric" maxlength="6" placeholder="Ej. 4821">
+    </div>
+    <div class="field">
+      <label for="nameInput">Tu nombre</label>
+      <input id="nameInput" maxlength="32" placeholder="Ej. Carlos">
+    </div>
+    <button id="joinBtn" class="btn-primary" style="width:100%">Unirse</button>
+    <p id="joinError" class="muted"></p>
+  </section>
+
+  <main id="gameView" class="player-screen" hidden>
+    <header class="player-header">
+      <div>
+        <div class="muted">Jugador</div>
+        <strong id="playerName">—</strong>
+      </div>
+      <div style="text-align:right">
+        <div class="muted">Sala</div>
+        <strong id="playerRoom">—</strong>
+      </div>
+    </header>
+
+    <section class="buzzer-zone">
+      <div style="text-align:center">
+        <div id="statusText" class="big-status">Esperando al administrador…</div>
+        <div style="height:24px"></div>
+        <button id="buzzer" class="buzzer waiting" disabled>ESPERA</button>
+        <div style="height:20px"></div>
+        <div id="resultBox" class="result-box"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/player.js"></script>
+</body>
+</html>

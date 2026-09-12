@@ -1,0 +1,20 @@
+{
+  "name": "button-race-realtime",
+  "version": "1.0.0",
+  "description": "Aplicaci\u00f3n web de pulsadores en tiempo real para concursos y din\u00e1micas.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
